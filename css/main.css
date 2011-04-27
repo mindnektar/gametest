@@ -1,0 +1,71 @@
+body {
+    background: #999;
+    cursor: default;
+    font: 8px font;
+}
+
+@font-face {
+    font-family: font;
+    src: url(../font/font.ttf);
+}
+
+#game {
+    background: #000;
+    border: 2px solid white;
+    box-shadow: 3px 3px 5px #000000;
+    height: 480px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    width: 640px;
+}
+
+#hints {
+    font-style: italic;
+    margin: 20px;
+    text-align: center;
+}
+
+#level {
+    height: 480px;
+    width: 640px;
+}
+
+#text {
+    display: none;
+    height: 128px;
+    line-height: 32px;
+    padding: 8px;
+    position: absolute;
+}
+
+#text-confirm {
+    bottom: -12px;
+    display: none;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    text-decoration: blink;
+    width: 640px;
+}
+
+.char {
+    background: #555;
+    display: none;
+    position: absolute;
+}
+
+#hero {
+    background: url(../img/char/ark.gif) no-repeat 0 0;
+    height: 64px;
+    width: 44px;
+    z-index: 1000;
+}
+
+.random-npc {
+    background: #4910f7;
+    border: 2px solid #94b89f;
+    border-radius: 16px;
+    height: 32px;
+    width: 32px;
+}
