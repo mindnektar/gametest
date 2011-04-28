@@ -7,6 +7,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/class/Conf.js"></script>
 <script type="text/javascript" src="js/class/Text.js"></script>
+<script type="text/javascript" src="js/class/Level.js"></script>
 <script type="text/javascript" src="js/class/Char.js"></script>
 <script type="text/javascript" src="js/class/Char/Hero.js"></script>
 <script type="text/javascript" src="js/main.js"></script>

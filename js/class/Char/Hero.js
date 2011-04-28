@@ -19,6 +19,13 @@ $(function() {
         
         this.$char.attr('id', 'hero');
         
+        this.collWidth = 32;
+        this.collHeight = 32;
+        this.collX = parseInt(this.$char.width() / 2 - this.collWidth / 2);
+        this.collY = this.$char.height() - this.collHeight;
+        
+        this.canTalkTo = null;
+        
         $wnd
             .keydown(function(e) {
                 if (!pressed[e.which]) pressed[e.which] = true;
@@ -27,9 +34,15 @@ $(function() {
                 if (pressed[e.which]) delete pressed[e.which];
             });
         
-        this.prepareMovement = function() {
+        this.handleInput = function() {
             if (!moveAllowed) return;
-            if (!pressed.length && !moving);
+            
+            if (pressed[Key.ATTACK] && this.canTalkTo) {
+                moveAllowed = false;
+                Text.writeBatch(this.canTalkTo.opts.texts, {}, function() {
+                    moveAllowed = true;
+                });
+            }
             
             var speed = pressed[Key.RUN] ? DEFAULT_SPEED * 2 : DEFAULT_SPEED,
                 movement = {x: 0, y: 0};

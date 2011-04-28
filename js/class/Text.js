@@ -35,13 +35,7 @@ Text = new function() {
             .show();
         
         if (!opts.skipAfter) {
-            $wnd.keyup(function(e) {
-                if (e.which == Key.ATTACK) {
-                    $content.html(text);
-                    clearTimeout(printingChar);
-                    bindProceed();
-                }
-            });
+            $wnd.keyup(skipEvent);
         }
         
         var i = 0;
@@ -58,22 +52,32 @@ Text = new function() {
             }
         }
         
+        function skipEvent(e) {
+            if (e.which == Key.ATTACK) {
+                $content.html(text);
+                clearTimeout(printingChar);
+                bindProceed();
+            }
+        }
+        
         function bindProceed() {
             $confirm.show();
             $wnd
-                .unbind('keyup', this.caller)
-                .keyup(function(e) {
-                    if (e.which == Key.ATTACK) {
-                        proceed();
-                    }
-                });
+                .unbind('keyup', skipEvent)
+                .keyup(proceedEvent);
+        }
+        
+        function proceedEvent(e) {
+            if (e.which == Key.ATTACK) {
+                proceed();
+            }
         }
         
         function proceed() {
             $content.html('');
             $text.hide();
             $confirm.hide();
-            $wnd.unbind('keyup', this.caller);
+            $wnd.unbind('keyup', proceedEvent);
             callback();
         }
         
@@ -81,16 +85,15 @@ Text = new function() {
     };
     
     this.writeBatch = function(texts, opts, callback) {
-        function handleText() {
+        var key = -1;
+        (function() {
             key++;
             if (texts[key]) {
-                self.write(texts[key], opts, handleText);
+                self.write(texts[key], opts, arguments.callee);
             } else {
                 callback && callback();
             }
-        }
-        var key = -1;
-        handleText();
+        })();
     }
 };
 

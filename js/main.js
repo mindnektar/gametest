@@ -8,11 +8,11 @@ var texts = [
 
 Text.writeBatch(texts, {}, function() {
     Hero.put(320, 240).setMoveAllowed(true);
-    (new Char('random-npc')).put(160, 120);
+    (new Char({className: 'random-npc', texts: ['This is a test.', 'Yep, indeed.']})).put(160, 128);
 });
 
 function main() {
-    Hero.prepareMovement();
+    Hero.handleInput();
     setTimeout(main, 20);
 }
 

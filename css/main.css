@@ -63,9 +63,7 @@ body {
 }
 
 .random-npc {
-    background: #4910f7;
-    border: 2px solid #94b89f;
-    border-radius: 16px;
-    height: 32px;
-    width: 32px;
+    background: url(../img/char/book.gif) no-repeat 0 0;
+    height: 28px;
+    width: 36px;
 }
