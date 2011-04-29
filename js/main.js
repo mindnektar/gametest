@@ -7,7 +7,8 @@ var texts = [
 ];
 
 Text.writeBatch(texts, {}, function() {
-    Hero.put(320, 240).setMoveAllowed(true);
+    Level.load('crysta');
+    Hero.put(1000, 1000).setMoveAllowed(true);
     (new Char({className: 'random-npc', texts: ['This is a test.', 'Yep, indeed.']})).put(160, 128);
 });
 

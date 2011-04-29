@@ -1,6 +1,12 @@
 $(function() {
 
-Level = new function() {    
+Level = new function() {
+    this.width = 0;
+    this.height = 0;
+    
+    this.x = 0;
+    this.y = 0;
+    
     this.getGrid = function() {
         var grid = [];
         for (var i = 0; i < 15; i++) {
@@ -12,6 +18,25 @@ Level = new function() {
         
         return grid;
     }
+    
+    this.load = function(level) {
+        $('<script type="text/javascript" src="js/level/' + level + '.js"></script>')
+            .appendTo('head')
+            .ready(function() {
+                $(this).remove();
+            });
+    };
+    
+    this.prepare = function(params) {
+        this.width = params.width;
+        this.height = params.height;
+        
+        $level.css({
+            background: 'url(img/level/' + params.bottomLayer + ') no-repeat 0 0',
+            width: params.width,
+            height: params.height
+        });
+    };
 };
 
 });
