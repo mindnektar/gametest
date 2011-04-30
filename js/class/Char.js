@@ -11,9 +11,8 @@ $(function() {
         this.opts = $.extend(dflt, opts);
         
         this.$char = $('<div class="char"></div>').appendTo($level);
-        if (this.opts.className) {
-            this.$char.addClass(this.opts.className);
-        }
+        if (this.opts.className) this.$char.addClass(this.opts.className);
+        if (this.opts.id) this.$char.attr('id', this.opts.id);
         
         this.id = chars.length;
         
@@ -26,6 +25,9 @@ $(function() {
         this.collY = this.collY || 0;
         this.collWidth = this.collWidth || this.width;
         this.collHeight = this.collHeight || this.height;
+        
+        this.xInLevel = 0;
+        this.yInLevel = 0;
         
         this.xspeed = 0;
         this.yspeed = 0;
@@ -68,12 +70,13 @@ $(function() {
                 this.yspeed = 0;
             }
             
-            this.xInLevel += this.xspeed;
-            this.yInLevel += this.yspeed;
-            
             var charCss = {backgroundPosition: bgPos},
                 bgPos = $level.css('background-position').split(' '),
-                bgPosChanges = false;
+                bgPosChanges = {x: 0, y: 0};
+            
+            if (this.xspeed || this.yspeed) {
+                this.checkCollisions();
+            }
             
             if (
                 this.id === 0 &&
@@ -82,11 +85,11 @@ $(function() {
                     (this.xspeed > 0 && this.nearRightBorder())
                 )
             ) {
-                if (Level.x + xspeed < 0) this.xspeed = -Level.x;
-                if (Level.x + 640 + xspeed > Level.width) this.xspeed = Level.width - 640 - Level.x; 
+                if (Level.x + this.xspeed < 0) this.xspeed = -Level.x;
+                if (Level.x + 640 + this.xspeed > Level.width) this.xspeed = Level.width - 640 - Level.x; 
                 Level.x += this.xspeed;
                 bgPos[0] = (parseInt(bgPos[0]) - this.xspeed) + 'px';
-                bgPosChanges = true;
+                bgPosChanges.x = this.xspeed;
             } else {
                 this.x += this.xspeed;
                 charCss.left = this.x;
@@ -99,22 +102,23 @@ $(function() {
                     (this.yspeed > 0 && this.nearBottomBorder())
                 )
             ) {
-                if (Level.y + yspeed < 0) this.yspeed = -Level.y;
-                if (Level.y + 480 + yspeed > Level.height) this.yspeed = Level.height - 480 - Level.y; 
+                if (Level.y + this.yspeed < 0) this.yspeed = -Level.y;
+                if (Level.y + 480 + this.yspeed > Level.height) this.yspeed = Level.height - 480 - Level.y; 
                 Level.y += this.yspeed;
                 bgPos[1] = (parseInt(bgPos[1]) - this.yspeed) + 'px';
-                bgPosChanges = true;
+                bgPosChanges.y = this.yspeed;
             } else {
                 this.y += this.yspeed;
                 charCss.top = this.y;
             }
             
-            if (this.xspeed || this.yspeed) {
-                this.checkCollisions();
-            }
-
-            if (bgPosChanges) {
-                $wnd.trigger('correctPosition', [this.xspeed, this.yspeed]);
+            this.xInLevel += this.xspeed;
+            this.yInLevel += this.yspeed;
+            
+            if (bgPosChanges.x || bgPosChanges.y) {
+                $.each(chars, function() {
+                    this.correctPosition(bgPosChanges.x, bgPosChanges.y);
+                });
                 $level.css({backgroundPosition: bgPos.join(' ')});
             }
             
@@ -124,8 +128,9 @@ $(function() {
         };
         
         this.checkCollisions = function() {
-            var newX = self.xInLevel + self.xspeed,
-                newY = self.yInLevel + self.yspeed;
+            var self = this,
+                newX = this.xInLevel + this.xspeed,
+                newY = this.yInLevel + this.yspeed;
             
             $.each(chars, function(_, char) {
                 if (self.id === char.id) return true;
@@ -155,7 +160,7 @@ $(function() {
         };
         
         this.nearRightBorder = function() {
-            return this.x >= 400 + this.width && Level.x < Level.width - 640;
+            return this.x + this.width >= 400 && Level.x < Level.width - 640;
         };
         
         this.nearTopBorder = function() {
@@ -163,18 +168,20 @@ $(function() {
         };
         
         this.nearBottomBorder = function() {
-            return this.y >= 300 + this.height && Level.y < Level.height - 480;
+            return this.y + this.height >= 300 && Level.y < Level.height - 480;
         };
         
-        this.id !== 0 && $wnd.bind('correctPosition', function(e, xspeed, yspeed) {
-            self.x -= xspeed;
-            self.y -= yspeed;
+        this.correctPosition = function(xspeed, yspeed) {
+            if (this.id === 0) return;
             
-            self.$char.css({
-                left: self.x,
-                top: self.y
+            this.x -= xspeed;
+            this.y -= yspeed;
+            
+            this.$char.css({
+                left: this.x,
+                top: this.y
             });
-        });
+        };
         
         chars.push(this);
     };

@@ -17,8 +17,6 @@ $(function() {
             moveAllowed = false,
             dir = 0;
         
-        this.$char.attr('id', 'hero');
-        
         this.collWidth = 32;
         this.collHeight = 32;
         this.collX = parseInt(this.$char.width() / 2 - this.collWidth / 2);
@@ -82,7 +80,7 @@ $(function() {
         };
     }
     
-    hero.prototype = new Char();
+    hero.prototype = new Char({id: 'hero'});
     
     Hero = new hero();
 });

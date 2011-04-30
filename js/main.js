@@ -6,10 +6,10 @@ var texts = [
     'Now have fun walking around, doing nothing particularly exciting. Oh, and ignore the sucky sprite work, it\'s a placeholder.'
 ];
 
-Text.writeBatch(texts, {}, function() {
-    Level.load('crysta');
-    Hero.put(1000, 1000).setMoveAllowed(true);
-    (new Char({className: 'random-npc', texts: ['This is a test.', 'Yep, indeed.']})).put(160, 128);
+Text.writeBatch(texts, {className: 'nobox'}, function() {
+    Level.load('tower');
+    Hero.put(958, 248).setMoveAllowed(true);
+    (new Char({className: 'random-npc', texts: ['This is a test.', 'Yep, indeed.']})).put(416, 280);
 });
 
 function main() {

@@ -34,13 +34,22 @@ body {
 #text {
     display: none;
     height: 128px;
-    line-height: 32px;
-    padding: 8px;
+    line-height: 28px;
+    padding: 10px 14px;
     position: absolute;
+    width: 612px;
+}
+
+.text-default {
+    background: url(../img/text.gif) no-repeat 0 0;
+}
+
+.text-nobox {
+    background: none;
 }
 
 #text-confirm {
-    bottom: -12px;
+    bottom: 7px;
     display: none;
     left: 0;
     position: absolute;

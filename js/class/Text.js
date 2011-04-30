@@ -8,12 +8,12 @@ Text = new function() {
         top = {
             top: 0,
             center: 168,
-            bottom: 328
+            bottom: 336
         };
     
     this.write = function(text, opts, callback) {
         var dflt = {
-            className: 'text-default',
+            className: 'default',
             color: '#fff',
             fontSize: '16px',
             position: 'bottom',
@@ -26,7 +26,7 @@ Text = new function() {
             printingChar;
         
         $text
-            .attr('class', opts.className)
+            .attr('class', 'text-' + opts.className)
             .css({
                 top: top[opts.position],
                 color: opts.color,
