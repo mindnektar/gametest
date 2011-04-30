@@ -5,6 +5,7 @@ $(function() {
         var self = this;
         
         var dflt = {
+            flying: false,
             friendly: true,
             texts: []
         };
@@ -33,6 +34,9 @@ $(function() {
         this.yspeed = 0;
         
         this.put = function(xpos, ypos) {
+            xpos += this.collX;
+            ypos += this.collY;
+            
             this.xInLevel = xpos;
             this.yInLevel = ypos;
             
@@ -75,7 +79,11 @@ $(function() {
                 bgPosChanges = {x: 0, y: 0};
             
             if (this.xspeed || this.yspeed) {
-                this.checkCollisions();
+                this.checkCharCollisions();
+            }
+            
+            if (this.xspeed || this.yspeed) {
+                !this.opts.flying && this.checkLevelCollisions();
             }
             
             if (
@@ -127,7 +135,7 @@ $(function() {
             return this;
         };
         
-        this.checkCollisions = function() {
+        this.checkCharCollisions = function() {
             var self = this,
                 newX = this.xInLevel + this.xspeed,
                 newY = this.yInLevel + this.yspeed;
@@ -145,14 +153,76 @@ $(function() {
                     nextToUp    = self.yInLevel + self.collY + self.collHeight > char.yInLevel + char.collY;
                     
                 if (insideRight && insideLeft && insideDown && insideUp) {
-                    if (nextToRight && nextToLeft) self.yspeed = 0;
-                    if (nextToDown && nextToUp) self.xspeed = 0;
+                    if (nextToRight && nextToLeft) {
+                        if (self.yspeed < 0) {
+                            self.yspeed = (char.yInLevel + char.collY + char.collHeight) - (self.yInLevel + self.collY);
+                        } else {
+                            self.yspeed = (char.yInLevel + char.collY) - (self.yInLevel + self.collY + self.collHeight);
+                        }
+                    }
+                    if (nextToDown && nextToUp) {
+                        if (self.xspeed < 0) {
+                            self.xspeed = (char.xInLevel + char.collX + char.collWidth) - (self.xInLevel + self.collX);
+                        } else {
+                            self.xspeed = (char.xInLevel + char.collX) - (self.xInLevel + self.collX + self.collWidth);
+                        }
+                    }
                 }
                 
                 if (self.id === 0 && char.opts.friendly) {
                     self.canTalkTo = (insideDown && insideUp && nextToLeft && nextToRight) || (insideLeft && insideRight && nextToUp && nextToDown) ? char : null;
                 }
             });
+        };
+        
+        this.checkLevelCollisions = function() {
+            var self = this,
+                newX = this.xInLevel + this.xspeed,
+                newY = this.yInLevel + this.yspeed;
+            
+            if (
+                (
+                    this.xspeed < 0 &&
+                    (
+                        Level.coll[parseInt((this.yInLevel + this.collY) / 32)][parseInt((newX + this.collX) / 32)] ||
+                        Level.coll[parseInt((this.yInLevel + this.collY + this.collHeight) / 32)][parseInt((newX + this.collX) / 32)]
+                    )
+                ) || (
+                    this.xspeed > 0 &&
+                    (
+                        Level.coll[parseInt((this.yInLevel + this.collY) / 32)][parseInt((newX + this.collX + this.collWidth) / 32)] ||
+                        Level.coll[parseInt((this.yInLevel + this.collY + this.collHeight) / 32)][parseInt((newX + this.collX + this.collWidth) / 32)]
+                    )
+                )
+            ) {
+                if (self.xspeed < 0) {
+                    self.xspeed = (this.xInLevel + this.collX) - parseInt((this.xInLevel + this.collX) / 32) * 32;console.log(this.xInLevel + this.collX);
+                } else {
+                    self.xspeed = parseInt((this.xInLevel + this.collX + this.collWidth) / 32) * 32 - (this.xInLevel + this.collX);
+                }
+            }
+            
+            if (
+                (
+                    this.yspeed < 0 &&
+                    (
+                        Level.coll[parseInt((newY + this.collY) / 32)][parseInt((this.xInLevel + this.collX) / 32)] ||
+                        Level.coll[parseInt((newY + this.collY) / 32)][parseInt((this.xInLevel + this.collX + this.collWidth) / 32)]
+                    )
+                ) || (
+                    this.yspeed > 0 &&
+                    (
+                        Level.coll[parseInt((newY + this.collY + this.collHeight) / 32)][parseInt((this.xInLevel + this.collX) / 32)] ||
+                        Level.coll[parseInt((newY + this.collY + this.collHeight) / 32)][parseInt((this.xInLevel + this.collX + this.collWidth) / 32)]
+                    )
+                )
+            ) {
+                if (self.yspeed < 0) {
+                    self.yspeed = (this.yInLevel + this.collY) - parseInt((this.yInLevel + this.collY) / 32) * 32;
+                } else {
+                    self.yspeed = parseInt((this.yInLevel + this.collY + this.collHeight) / 32) * 32 - (this.yInLevel + this.collY);
+                }
+            }
         };
         
         this.nearLeftBorder = function() {

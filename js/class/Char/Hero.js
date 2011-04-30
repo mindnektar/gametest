@@ -17,10 +17,10 @@ $(function() {
             moveAllowed = false,
             dir = 0;
         
-        this.collWidth = 32;
-        this.collHeight = 32;
-        this.collX = parseInt(this.$char.width() / 2 - this.collWidth / 2);
-        this.collY = this.$char.height() - this.collHeight;
+        this.collWidth = 30;
+        this.collHeight = 30;
+        this.collX = parseInt(this.width / 2 - this.collWidth / 2);
+        this.collY = this.height - this.collHeight;
         
         this.canTalkTo = null;
         
@@ -51,8 +51,12 @@ $(function() {
                     movement.x += moveMap[key][0] * speed;
                     movement.y += moveMap[key][1] * speed;
                     speed /= 2;
-                    if (!moving) dir = moveMap[key][2];
-                    moving = true;
+                    if (!moving) {
+                        dir = moveMap[key][2];
+                        moving = true;
+                    } else {
+                        return false;
+                    }
                 }
             });
             

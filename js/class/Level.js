@@ -7,6 +7,8 @@ Level = new function() {
     this.x = 0;
     this.y = 0;
     
+    this.coll = [];
+    
     this.getGrid = function() {
         var grid = [];
         for (var i = 0; i < 15; i++) {
@@ -30,6 +32,7 @@ Level = new function() {
     this.prepare = function(params) {
         this.width = params.width;
         this.height = params.height;
+        this.coll = params.coll;
         
         $level.css({
             background: 'url(img/level/' + params.bottomLayer + ') no-repeat 0 0',
