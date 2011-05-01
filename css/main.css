@@ -67,16 +67,54 @@ body {
     width: 640px;
 }
 
+#ui {
+    display: none;
+    height: 480px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 640px;
+    z-index: 100000;
+}
+
+#ui-hp {
+    color: #fff;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: bold;
+    position: absolute;
+    left: 44px;
+    text-shadow: 2px 2px 0 #000;
+    top: 420px;
+}
+
+#ui-hp-bar {
+    background: #000;
+    border: 2px solid #000;
+    border-radius: 6px;
+    height: 8px;
+    left: 36px;
+    position: absolute;
+    top: 434px;
+    width: 200px;
+}
+
+#ui-hp-bar div {
+    background: #f00;
+    border-radius: 6px;
+    height: 8px;
+}
+
 .hp-pos, .hp-neg {
     font-size: 16px;
     font-weight: bold;
     position: absolute;
     text-align: center;
-    text-shadow: 1px 1px 1px #000;
+    text-shadow: 2px 2px 0 #000;
     z-index: 10000;
 }
-.hp-pos { color: #fff; }
-.hp-neg { color: #f44; }
+.hp-pos { color: #4f4; }
+.hp-neg { color: #fff; }
 
 .char {
     display: none;

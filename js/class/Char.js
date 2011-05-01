@@ -34,6 +34,8 @@ $(function() {
         this.xspeed = 0;
         this.yspeed = 0;
         
+        this.hp;
+        
         this.put = function(xpos, ypos) {
             xpos += this.collX;
             ypos += this.collY;
@@ -180,7 +182,7 @@ $(function() {
                         if (char.opts.friendly) {
                             self.canTalkTo = char;
                         } else {
-                            self.changeHP(parseInt(Math.random() * 4) + 1);
+                            self.changeHP(-parseInt(Math.random() * 4) - 1);
                             self.setBreakAnim(self.doDamageAnim);
                         }
                     } else {
@@ -318,7 +320,7 @@ $(function() {
         
         this.changeHP = function(value, invisible) {
             if (!invisible) {
-                var $num = $('<div class="hp-' + (value > 0 ? 'pos' : 'neg') + '">' + value + '</div>')
+                var $num = $('<div class="hp-' + (value > 0 ? 'pos' : 'neg') + '">' + Math.abs(value) + '</div>')
                     .css({
                         left: this.xInLevel,
                         top: (this.yInLevel + this.height) - 48,
@@ -329,6 +331,11 @@ $(function() {
                         setTimeout(function() {$num.remove();}, 500);
                     });
             }
+            
+            this.hp += value;
+            if (this.hp < 0) this.hp = 0;
+            
+            this.$char.trigger('hpchange', [value]);
         };
         
         chars.push(this);

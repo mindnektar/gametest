@@ -27,6 +27,9 @@ Hero = new function() {
     this.collX = parseInt(this.width / 2 - this.collWidth / 2);
     this.collY = this.height - this.collHeight;
     
+    this.hp = 100;
+    this.hpMax = 100;
+    
     this.canTalkTo = null;
     
     $wnd
@@ -36,6 +39,12 @@ Hero = new function() {
         .keyup(function(e) {
             if (pressed[e.which]) delete pressed[e.which];
         });
+    
+    this.$char.bind('hpchange', function(e, value) {
+        UI.updateHP(value);
+    });
+    
+    this.correctPosition = $.noop;
     
     this.handleInput = function() {
         if (!moveAllowed) {
@@ -70,14 +79,14 @@ Hero = new function() {
         });
         
         if (moving) {
-            var bgPosX = ((this.dir * animCount + parseInt(animFrame / animSpeed)) * -this.$char.width()) + 'px';
+            var bgPosX = ((this.dir * animCount + parseInt(animFrame / animSpeed)) * -this.width) + 'px';
             var bgPosY = '-64px';
             
             if (++animFrame === animSpeed * animCount - 1) {
                 animFrame = 0;
             }
         } else {
-            var bgPosX = (this.dir * -this.$char.width()) + 'px';
+            var bgPosX = (this.dir * -this.width) + 'px';
             var bgPosY = 0;
             animFrame = 0;
         }
@@ -120,8 +129,6 @@ Hero = new function() {
             breakAnim = $.noop;
         }
     };
-    
-    this.correctPosition = $.noop;
 }
 
 });
