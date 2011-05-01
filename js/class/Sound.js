@@ -33,14 +33,12 @@ Sound = new function() {
     };
     
     function play(name, type) {
-        if (disabled) return;
-        
         if (!sounds[type][name]) self.load(name, type);
         
-        var sound = sounds[type][name];
+        if (disabled) return;
         
-        if (sound.currentTime) sound.currentTime = 0;
-        sound.play();
+        if (sounds[type][name].currentTime) sounds[type][name].currentTime = 0;
+        sounds[type][name].play();
     };
     
     this.playMusic = function(name) {

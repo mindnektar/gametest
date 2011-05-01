@@ -1,0 +1,6 @@
+.monster-bubba {
+    background: url(../img/char/bubba.gif) no-repeat -480px -384px;
+    height: 64px;
+    width: 48px;
+    z-index: 900;
+}

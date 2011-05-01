@@ -169,14 +169,20 @@ $(function() {
                     }
                 }
                 
-                if (self.id === 0 && char.opts.friendly) {
+                if (self.id === 0) {
                     if (
-                        (self.dir === 0 && nextToUp && insideLeft && insideRight) ||
+                        (insideLeft && insideRight && nextToUp && nextToDown) || (insideUp && insideDown && nextToLeft && nextToRight)
+                        /*(self.dir === 0 && nextToUp && insideLeft && insideRight) ||
                         (self.dir === 1 && nextToRight && insideDown && insideUp) ||
                         (self.dir === 2 && nextToDown && insideLeft && insideRight) ||
-                        (self.dir === 3 && nextToLeft && insideDown && insideUp)
+                        (self.dir === 3 && nextToLeft && insideDown && insideUp)*/
                     ) {
-                        self.canTalkTo = char;
+                        if (char.opts.friendly) {
+                            self.canTalkTo = char;
+                        } else {
+                            self.changeHP(parseInt(Math.random() * 4) + 1);
+                            self.setBreakAnim(self.doDamageAnim);
+                        }
                     } else {
                         self.canTalkTo = null;
                     }
@@ -308,6 +314,21 @@ $(function() {
                 left: this.x,
                 top: this.y
             });
+        };
+        
+        this.changeHP = function(value, invisible) {
+            if (!invisible) {
+                var $num = $('<div class="hp-' + (value > 0 ? 'pos' : 'neg') + '">' + value + '</div>')
+                    .css({
+                        left: this.x,
+                        top: (this.y + this.height) - 48,
+                        width: this.width
+                    })
+                    .appendTo($level)
+                    .animate({top: this.y + this.height - 16}, 500, 'easeOutBounce', function() {
+                        setTimeout(function() {$num.remove();}, 500);
+                    });
+            }
         };
         
         chars.push(this);
