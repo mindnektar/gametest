@@ -79,7 +79,6 @@ body {
 .hp-neg { color: #f44; }
 
 .char {
-    background: #555;
     display: none;
     position: absolute;
 }

@@ -9,6 +9,7 @@ var texts = [
 Text.writeBatch(texts, {className: 'nobox'}, function() {
     Level.load('tower', function() {
         Hero.put(416, 344).setMoveAllowed(true);
+        Number.put(0, 0);
     });
 });
 

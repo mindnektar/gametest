@@ -17,6 +17,7 @@ var debugMode = <?php echo isset($_GET['debug']) ? 'true' : 'false'; ?>;
 <script type="text/javascript" src="js/class/Char.js"></script>
 <script type="text/javascript" src="js/class/Char/Hero.js"></script>
 <script type="text/javascript" src="js/class/Char/Monster/Bubba.js"></script>
+<script type="text/javascript" src="js/class/Char/Number.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>

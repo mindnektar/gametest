@@ -5,6 +5,7 @@ $(function() {
         var dflt = {
             flying: false,
             friendly: true,
+            noCollisions: false,
             texts: []
         };
         this.opts = $.extend(dflt, opts);
@@ -50,7 +51,6 @@ $(function() {
             this.y = ypos - Level.y;
             
             this.$char
-                .hide()
                 .css({
                     left: this.x,
                     top: this.y
@@ -141,7 +141,7 @@ $(function() {
                 newY = this.yInLevel + this.yspeed;
             
             $.each(chars, function(_, char) {
-                if (self.id === char.id) return true;
+                if (self.id === char.id || char.opts.noCollisions) return true;
                 
                 var insideRight = newX + self.collX < char.xInLevel + char.collX + char.collWidth,
                     insideLeft  = newX + self.collX + self.collWidth > char.xInLevel + char.collX,
@@ -305,8 +305,6 @@ $(function() {
         };
         
         this.correctPosition = function(xspeed, yspeed) {
-            if (this.id === 0) return;
-            
             this.x -= xspeed;
             this.y -= yspeed;
             
@@ -314,18 +312,20 @@ $(function() {
                 left: this.x,
                 top: this.y
             });
+            
+            return this;
         };
         
         this.changeHP = function(value, invisible) {
             if (!invisible) {
                 var $num = $('<div class="hp-' + (value > 0 ? 'pos' : 'neg') + '">' + value + '</div>')
                     .css({
-                        left: this.x,
-                        top: (this.y + this.height) - 48,
+                        left: this.xInLevel,
+                        top: (this.yInLevel + this.height) - 48,
                         width: this.width
                     })
-                    .appendTo($level)
-                    .animate({top: this.y + this.height - 16}, 500, 'easeOutBounce', function() {
+                    .appendTo(Number.$char)
+                    .animate({top: this.yInLevel + this.height - 16}, 500, 'easeOutBounce', function() {
                         setTimeout(function() {$num.remove();}, 500);
                     });
             }

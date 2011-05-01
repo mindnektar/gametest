@@ -57,7 +57,7 @@ Sound = new function() {
     function stop(name, type) {
         if (sounds[type][name]) {
             sounds[type][name].pause();
-            sounds[type][name].currentTime = 0;
+            if (sounds[type][name].currentTime) sounds[type][name].currentTime = 0;
         }
     };
     

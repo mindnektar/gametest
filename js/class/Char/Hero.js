@@ -1,6 +1,8 @@
 $(function() {
 
-function hero() {
+Hero = new function() {
+    Char.call(this, {id: 'hero'});
+    
     var DEFAULT_SPEED = 4;
     
     var animSpeed = 8,
@@ -118,10 +120,8 @@ function hero() {
             breakAnim = $.noop;
         }
     };
+    
+    this.correctPosition = $.noop;
 }
-
-hero.prototype = new Char({id: 'hero'});
-
-Hero = new hero();
 
 });
