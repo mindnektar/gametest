@@ -12,7 +12,6 @@ Text.writeBatch(texts, {className: 'nobox'}, function() {
         
         (new Char({
             className: 'random-npc',
-            friendly: true,
             texts: ['If you think you can save your game here, you are very mistaken.', 'Now move along and leave me alone.']
         })).put(416, 280);
         

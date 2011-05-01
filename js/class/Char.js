@@ -184,7 +184,7 @@ $(function() {
                             self.setBreakAnim(self.doDamageAnim);
                         }
                     } else {
-                        self.canTalkTo = null;
+                        if (self.canTalkTo && self.canTalkTo.id === char.id) self.canTalkTo = null;
                     }
                 }
             });
