@@ -45,8 +45,6 @@ Text = new function() {
         function printChar() {
             $content[0].innerHTML += chars[i];
             
-            Sound.play('text', 'sound');
-            
             if (chars[++i]) {
                 printingChar = setTimeout(printChar, opts.speed);
             } else {
@@ -67,6 +65,7 @@ Text = new function() {
         }
         
         function bindProceed() {
+            Sound.stopSound('text');
             $confirm.show();
             $wnd
                 .unbind('keyup', skipEvent)
@@ -83,9 +82,12 @@ Text = new function() {
             $content.html('');
             $text.hide();
             $confirm.hide();
+            
             $wnd.unbind('keyup', proceedEvent);
             callback();
         }
+        
+        Sound.playSound('text');
         
         printChar();
     };

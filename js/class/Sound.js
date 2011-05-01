@@ -32,21 +32,45 @@ Sound = new function() {
         sounds[type][name].volume = volume[type];
     };
     
-    this.play = function(name, type) {
+    function play(name, type) {
         if (disabled) return;
         
-        if (!sounds[type][name]) this.load(name, type);
+        if (!sounds[type][name]) self.load(name, type);
         
         var sound = sounds[type][name];
         
-        if (type === 'music') {
-            if (sound.currentTime === sound.duration) {
-                sound.currentTime = 0;
-            }
-        }
-        
         if (sound.currentTime) sound.currentTime = 0;
         sound.play();
+    };
+    
+    this.playMusic = function(name) {
+        play(name, 'music');
+        
+        $(sounds.music[name]).bind('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        });
+    };
+    
+    this.playSound = function(name) {
+        play(name, 'sound');
+    };
+    
+    function stop(name, type) {
+        if (sounds[type][name]) {
+            sounds[type][name].pause();
+            sounds[type][name].currentTime = 0;
+        }
+    };
+    
+    this.stopMusic = function(name) {
+        stop(name, 'music');
+        
+        $(sounds.music[name]).unbind('ended');
+    };
+    
+    this.stopSound = function(name) {
+        stop(name, 'sound');
     };
 };
 
