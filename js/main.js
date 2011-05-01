@@ -8,13 +8,19 @@ var texts = [
 
 Text.writeBatch(texts, {className: 'nobox'}, function() {
     Level.load('tower');
-    Hero.put(958, 248).setMoveAllowed(true);
+    Hero.put(348, 924).setMoveAllowed(true);
     (new Char({className: 'random-npc', texts: ['This is a test.', 'Yep, indeed.']})).put(416, 280);
 });
 
+if (debugMode) {
+    $wnd.keypress(function(e) {
+        if (e.which === 32) main();
+    });
+}
+
 function main() {
     Hero.handleInput();
-    setTimeout(main, 20);
+    !debugMode && setTimeout(main, 20);
 }
 
 main();

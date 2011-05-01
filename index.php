@@ -4,6 +4,9 @@
 <head>
 <title>Test</title>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
+<script>
+var debugMode = <?php echo isset($_GET['debug']) ? 'true' : 'false'; ?>;
+</script>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/class/Conf.js"></script>
 <script type="text/javascript" src="js/class/Text.js"></script>

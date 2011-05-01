@@ -185,18 +185,42 @@ $(function() {
                     this.xspeed < 0 &&
                     (
                         Level.coll[parseInt((this.yInLevel + this.collY) / 32)][parseInt((newX + this.collX) / 32)] ||
-                        Level.coll[parseInt((this.yInLevel + this.collY + this.collHeight) / 32)][parseInt((newX + this.collX) / 32)]
+                        Level.coll[parseInt((this.yInLevel + this.collY + this.collHeight) / 32)][parseInt((newX + this.collX) / 32)] ||
+                        (
+                            this.yspeed &&
+                            (
+                                (
+                                    this.yspeed < 0 && !Level.coll[parseInt((newY + this.collY) / 32)][parseInt((this.xInLevel + this.collX) / 32)] ||
+                                    this.yspeed > 0 && !Level.coll[parseInt((newY + this.collY + this.collHeight) / 32)][parseInt((this.xInLevel + this.collX) / 32)]
+                                ) && (
+                                    Level.coll[parseInt((newY + this.collY) / 32)][parseInt((newX + this.collX) / 32)] ||
+                                    Level.coll[parseInt((newY + this.collY + this.collHeight) / 32)][parseInt((newX + this.collX) / 32)]
+                                )
+                            )
+                        )
                     )
                 ) || (
                     this.xspeed > 0 &&
                     (
                         Level.coll[parseInt((this.yInLevel + this.collY) / 32)][parseInt((newX + this.collX + this.collWidth) / 32)] ||
-                        Level.coll[parseInt((this.yInLevel + this.collY + this.collHeight) / 32)][parseInt((newX + this.collX + this.collWidth) / 32)]
+                        Level.coll[parseInt((this.yInLevel + this.collY + this.collHeight) / 32)][parseInt((newX + this.collX + this.collWidth) / 32)] ||
+                        (
+                            this.yspeed &&
+                            (
+                                (
+                                    this.yspeed < 0 && !Level.coll[parseInt((newY + this.collY) / 32)][parseInt((this.xInLevel + this.collX + this.collWidth) / 32)] ||
+                                    this.yspeed > 0 && !Level.coll[parseInt((newY + this.collY + this.collHeight) / 32)][parseInt((this.xInLevel + this.collX + this.collWidth) / 32)]
+                                ) && (
+                                    Level.coll[parseInt((newY + this.collY) / 32)][parseInt((newX + this.collX + this.collWidth) / 32)] ||
+                                    Level.coll[parseInt((newY + this.collY + this.collHeight) / 32)][parseInt((newX + this.collX + this.collWidth) / 32)]
+                                )
+                            )
+                        )
                     )
                 )
             ) {
                 if (self.xspeed < 0) {
-                    self.xspeed = (this.xInLevel + this.collX) - parseInt((this.xInLevel + this.collX) / 32) * 32;console.log(this.xInLevel + this.collX);
+                    self.xspeed = parseInt((this.xInLevel + this.collX) / 32) * 32 - (this.xInLevel + this.collX);
                 } else {
                     self.xspeed = parseInt((this.xInLevel + this.collX + this.collWidth) / 32) * 32 - (this.xInLevel + this.collX);
                 }
@@ -207,18 +231,42 @@ $(function() {
                     this.yspeed < 0 &&
                     (
                         Level.coll[parseInt((newY + this.collY) / 32)][parseInt((this.xInLevel + this.collX) / 32)] ||
-                        Level.coll[parseInt((newY + this.collY) / 32)][parseInt((this.xInLevel + this.collX + this.collWidth) / 32)]
+                        Level.coll[parseInt((newY + this.collY) / 32)][parseInt((this.xInLevel + this.collX + this.collWidth) / 32)] ||
+                        (
+                            this.xspeed &&
+                            (
+                                (
+                                    this.xspeed < 0 && !Level.coll[parseInt((this.yInLevel + this.collY) / 32)][parseInt((newX + this.collX) / 32)] ||
+                                    this.xspeed > 0 && !Level.coll[parseInt((this.yInLevel + this.collY) / 32)][parseInt((newX + this.collX + this.collWidth) / 32)]
+                                ) && (
+                                    Level.coll[parseInt((newY + this.collY) / 32)][parseInt((newX + this.collX) / 32)] ||
+                                    Level.coll[parseInt((newY + this.collY) / 32)][parseInt((newX + this.collX + this.collWidth) / 32)]
+                                )
+                            )
+                        )
                     )
                 ) || (
                     this.yspeed > 0 &&
                     (
                         Level.coll[parseInt((newY + this.collY + this.collHeight) / 32)][parseInt((this.xInLevel + this.collX) / 32)] ||
-                        Level.coll[parseInt((newY + this.collY + this.collHeight) / 32)][parseInt((this.xInLevel + this.collX + this.collWidth) / 32)]
+                        Level.coll[parseInt((newY + this.collY + this.collHeight) / 32)][parseInt((this.xInLevel + this.collX + this.collWidth) / 32)] ||
+                        (
+                            this.xspeed &&
+                            (
+                                (
+                                    this.xspeed < 0 && !Level.coll[parseInt((this.yInLevel + this.collY + this.collHeight) / 32)][parseInt((newX + this.collX) / 32)] ||
+                                    this.xspeed > 0 && !Level.coll[parseInt((this.yInLevel + this.collY + this.collHeight) / 32)][parseInt((newX + this.collX + this.collWidth) / 32)]
+                                ) && (
+                                    Level.coll[parseInt((newY + this.collY + this.collHeight) / 32)][parseInt((newX + this.collX) / 32)] ||
+                                    Level.coll[parseInt((newY + this.collY + this.collHeight) / 32)][parseInt((newX + this.collX + this.collWidth) / 32)]
+                                )
+                            )
+                        )
                     )
                 )
             ) {
                 if (self.yspeed < 0) {
-                    self.yspeed = (this.yInLevel + this.collY) - parseInt((this.yInLevel + this.collY) / 32) * 32;
+                    self.yspeed = parseInt((this.yInLevel + this.collY) / 32) * 32 - (this.yInLevel + this.collY);
                 } else {
                     self.yspeed = parseInt((this.yInLevel + this.collY + this.collHeight) / 32) * 32 - (this.yInLevel + this.collY);
                 }
