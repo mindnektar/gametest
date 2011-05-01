@@ -44,6 +44,9 @@ Text = new function() {
         var i = 0;
         function printChar() {
             $content[0].innerHTML += chars[i];
+            
+            Sound.play('text', 'sound');
+            
             if (chars[++i]) {
                 printingChar = setTimeout(printChar, opts.speed);
             } else {

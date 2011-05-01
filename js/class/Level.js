@@ -47,6 +47,8 @@ Level = new function() {
         
         this.loadCallback();
         
+        Sound.play(params.music, 'music');
+        
         $level.fadeIn(500);
     };
 };

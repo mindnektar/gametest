@@ -1,12 +1,17 @@
 body {
     background: #999;
     cursor: default;
-    font: 8px font;
+    font: 8px game;
 }
 
 @font-face {
-    font-family: font;
-    src: url(../font/font.ttf);
+    font-family: game;
+    src: url(../font/game.ttf);
+}
+
+#container {
+    margin: 0 auto;
+    width: 640px;
 }
 
 #game {
@@ -14,10 +19,14 @@ body {
     border: 2px solid white;
     box-shadow: 3px 3px 5px #000000;
     height: 480px;
-    margin: 0 auto;
     overflow: hidden;
     position: relative;
     width: 640px;
+}
+
+#togglesound {
+    float: right;
+    margin-top: 20px;
 }
 
 #hints {
