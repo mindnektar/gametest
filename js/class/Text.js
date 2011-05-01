@@ -9,10 +9,17 @@ Text = new function() {
             top: 0,
             center: 168,
             bottom: 336
-        };
+        },
+        progressBlocked = false;
     
     // Pre-load the box image
-    $text.attr('class', 'text-default');
+    new Image('img/text.gif');
+    
+    $wnd.keyup(function(e) {
+        if (e.which == Key.ATTACK) {
+            progressBlocked = false;
+        }
+    });
     
     this.write = function(text, opts, callback) {
         var dflt = {
@@ -38,7 +45,7 @@ Text = new function() {
             .show();
         
         if (!opts.skipAfter) {
-            $wnd.keyup(skipEvent);
+            $wnd.keydown(skipEvent);
         }
         
         var i = 0;
@@ -57,7 +64,8 @@ Text = new function() {
         }
         
         function skipEvent(e) {
-            if (e.which == Key.ATTACK) {
+            if (!progressBlocked && e.which == Key.ATTACK) {
+                progressBlocked = true;
                 $content.html(text);
                 clearTimeout(printingChar);
                 bindProceed();
@@ -68,12 +76,13 @@ Text = new function() {
             Sound.stopSound('text');
             $confirm.show();
             $wnd
-                .unbind('keyup', skipEvent)
-                .keyup(proceedEvent);
+                .unbind('keydown', skipEvent)
+                .keydown(proceedEvent);
         }
         
         function proceedEvent(e) {
-            if (e.which == Key.ATTACK) {
+            if (!progressBlocked && e.which == Key.ATTACK) {
+                progressBlocked = true;
                 proceed();
             }
         }
@@ -83,7 +92,7 @@ Text = new function() {
             $text.hide();
             $confirm.hide();
             
-            $wnd.unbind('keyup', proceedEvent);
+            $wnd.unbind('keydown', proceedEvent);
             callback();
         }
         
@@ -93,6 +102,11 @@ Text = new function() {
     };
     
     this.writeBatch = function(texts, opts, callback) {
+        if (progressBlocked) {
+            callback && callback();
+            return;
+        }
+        
         var key = -1;
         (function() {
             key++;

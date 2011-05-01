@@ -9,14 +9,6 @@ var texts = [
 Text.writeBatch(texts, {className: 'nobox'}, function() {
     Level.load('tower', function() {
         Hero.put(416, 344).setMoveAllowed(true);
-        
-        (new Char({
-            className: 'random-npc',
-            texts: ['If you think you can save your game here, you are very mistaken.', 'Now move along and leave me alone.']
-        })).put(416, 280);
-        
-        (new Bubba()).put(832, 560);
-        (new Bubba()).put(932, 624);
     });
 });
 
