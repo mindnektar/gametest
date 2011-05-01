@@ -21,7 +21,7 @@ Text = new function() {
         }
     });
     
-    this.write = function(text, opts, callback) {
+    function write(text, opts, callback) {
         var dflt = {
             className: 'default',
             color: '#fff',
@@ -107,12 +107,15 @@ Text = new function() {
             return;
         }
         
+        UI.hide();
+        
         var key = -1;
         (function() {
             key++;
             if (texts[key]) {
-                self.write(texts[key], opts, arguments.callee);
+                write(texts[key], opts, arguments.callee);
             } else {
+                UI.show();
                 callback && callback();
             }
         })();
