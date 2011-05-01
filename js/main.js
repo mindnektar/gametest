@@ -7,9 +7,10 @@ var texts = [
 ];
 
 Text.writeBatch(texts, {className: 'nobox'}, function() {
-    Level.load('tower');
-    Hero.put(348, 924).setMoveAllowed(true);
-    (new Char({className: 'random-npc', texts: ['This is a test.', 'Yep, indeed.']})).put(416, 280);
+    Level.load('tower', function() {
+        Hero.put(348, 924).setMoveAllowed(true);
+        (new Char({className: 'random-npc', texts: ['This is a test.', 'Yep, indeed.']})).put(416, 280);
+    });
 });
 
 if (debugMode) {

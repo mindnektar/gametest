@@ -14,8 +14,9 @@ $(function() {
         
         var pressed = {},
             moving = false,
-            moveAllowed = false,
-            dir = 0;
+            moveAllowed = false;
+        
+        this.dir = 2;
         
         this.collWidth = 30;
         this.collHeight = 30;
@@ -43,7 +44,8 @@ $(function() {
             }
             
             var speed = pressed[Key.RUN] ? DEFAULT_SPEED * 2 : DEFAULT_SPEED,
-                movement = {x: 0, y: 0};
+                movement = {x: 0, y: 0},
+                self = this;
             
             moving = false;
             $.each(pressed, function(key) {
@@ -52,7 +54,7 @@ $(function() {
                     movement.y += moveMap[key][1] * speed;
                     speed /= 2;
                     if (!moving) {
-                        dir = moveMap[key][2];
+                        self.dir = moveMap[key][2];
                         moving = true;
                     } else {
                         return false;
@@ -61,14 +63,14 @@ $(function() {
             });
             
             if (moving) {
-                var bgPosX = ((dir * animCount + parseInt(animFrame / animSpeed)) * -this.$char.width()) + 'px';
+                var bgPosX = ((this.dir * animCount + parseInt(animFrame / animSpeed)) * -this.$char.width()) + 'px';
                 var bgPosY = '-64px';
                 
                 if (++animFrame === animSpeed * animCount - 1) {
                     animFrame = 0;
                 }
             } else {
-                var bgPosX = (dir * -this.$char.width()) + 'px';
+                var bgPosX = (this.dir * -this.$char.width()) + 'px';
                 var bgPosY = 0;
                 animFrame = 0;
             }

@@ -9,6 +9,8 @@ Level = new function() {
     
     this.coll = [];
     
+    this.loadCallback = $.noop;
+    
     this.getGrid = function() {
         var grid = [];
         for (var i = 0; i < 15; i++) {
@@ -21,12 +23,15 @@ Level = new function() {
         return grid;
     }
     
-    this.load = function(level) {
-        $('<script type="text/javascript" src="js/level/' + level + '.js"></script>')
-            .appendTo('head')
-            .ready(function() {
-                $(this).remove();
-            });
+    this.load = function(level, callback) {
+        this.loadCallback = callback;
+        $level.fadeOut(500, function() {
+            $('<script type="text/javascript" src="js/level/' + level + '.js"></script>')
+                .appendTo('head')
+                .ready(function() {
+                    $(this).remove();
+                });
+        });
     };
     
     this.prepare = function(params) {
@@ -39,6 +44,10 @@ Level = new function() {
             width: params.width,
             height: params.height
         });
+        
+        this.loadCallback();
+        
+        $level.fadeIn(500);
     };
 };
 

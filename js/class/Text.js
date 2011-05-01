@@ -11,6 +11,9 @@ Text = new function() {
             bottom: 336
         };
     
+    // Pre-load the box image
+    $text.attr('class', 'text-default');
+    
     this.write = function(text, opts, callback) {
         var dflt = {
             className: 'default',

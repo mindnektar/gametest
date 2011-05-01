@@ -2,8 +2,6 @@ $(function() {
     var chars = [];
     
     Char = function(opts) {
-        var self = this;
-        
         var dflt = {
             flying: false,
             friendly: true,
@@ -16,6 +14,8 @@ $(function() {
         if (this.opts.id) this.$char.attr('id', this.opts.id);
         
         this.id = chars.length;
+        
+        this.dir = 2;
         
         this.x = 0;
         this.y = 0;
@@ -67,10 +67,10 @@ $(function() {
             var newX = this.xInLevel + this.xspeed,
                 newY = this.yInLevel + this.yspeed;
             
-            if (newX < 0 || newX > Level.width - this.$char.width()) {
+            if (newX < 0 || newX > Level.width - this.width) {
                 this.xspeed = 0;
             } 
-            if (newY < 0 || newY > Level.height - this.$char.height()) {
+            if (newY < 0 || newY > Level.height - this.height) {
                 this.yspeed = 0;
             }
             
@@ -170,7 +170,16 @@ $(function() {
                 }
                 
                 if (self.id === 0 && char.opts.friendly) {
-                    self.canTalkTo = (insideDown && insideUp && nextToLeft && nextToRight) || (insideLeft && insideRight && nextToUp && nextToDown) ? char : null;
+                    if (
+                        (self.dir === 0 && nextToUp && insideLeft && insideRight) ||
+                        (self.dir === 1 && nextToRight && insideDown && insideUp) ||
+                        (self.dir === 2 && nextToDown && insideLeft && insideRight) ||
+                        (self.dir === 3 && nextToLeft && insideDown && insideUp)
+                    ) {
+                        self.canTalkTo = char;
+                    } else {
+                        self.canTalkTo = null;
+                    }
                 }
             });
         };
